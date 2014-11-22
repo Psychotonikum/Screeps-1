@@ -26,11 +26,10 @@ module.exports = function(creep) {
 
         target = util.decide(spawn, constrSite);
 
-        if(spawn && (target == spawn || (spawn.energy < 3000 && !spawn.memory.suppliesComming))) {
-            console.log(creep.name+" is comming to refill the spawn");
-            spawn.memory.suppliesComming = true;
+        if(spawn && (target == spawn || (spawn.energy < 3000 && (spawn.memory.supplier == creep.name || !spawn.memory.supplier)))) {
+            spawn.memory.supplier = creep.name;
             creep.moveTo(spawn);
-            if(creep.transferEnergy(spawn) === 0) spawn.memory.suppliesComming = false;
+            if(creep.transferEnergy(spawn) === 0) spawn.memory.supplier = null;
         } else if(constrSite) {
             creep.moveTo(constrSite);
             creep.build(constrSite);

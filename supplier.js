@@ -1,5 +1,5 @@
 module.exports = function(creep) {
-    var structure = creep.pos.findNearest(Game.MY_STRUCTURES, {filter: function(structure){ return structure.structureType == "extension" && structure.energy < structure.energyCapacity / 2; }});
+    var structure = creep.pos.findNearest(Game.MY_STRUCTURES, {filter: function(structure){ return structure.structureType == "extension" && structure.energy < structure.energyCapacity; }});
     
     if(structure) {
         if(creep.energy === 0) {

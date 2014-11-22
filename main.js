@@ -1,14 +1,14 @@
 var _ = require("lodash");
 
 //var marksman = require("marksman");
-//var supplier = require("supplier");
+var supplier = require("supplier");
 var worker = require("worker");
 
 var util = require("util");
 
 var ROLES = {
     //"marksman": [5, [Game.HEAL, Game.RANGED_ATTACK, Game.MOVE, Game.MOVE]],
-    //"supplier": [2, [Game.CARRY, Game.CARRY, Game.MOVE, Game.MOVE]],
+    "supplier": [2, [Game.CARRY, Game.CARRY, Game.MOVE, Game.MOVE]],
     "worker": [10, [Game.CARRY, Game.WORK, Game.MOVE, Game.MOVE]],
     
 };
@@ -31,18 +31,18 @@ for(var creepName in Game.creeps) {
     var creep = Game.creeps[creepName];
     
     switch(creep.memory.role) {
-        /*case "marksman": {
+        case "marksman": {
             marksman(creep);
             break;
-        }*/
+        }
         case "worker": {
             worker(creep);
             break;
-        }        
-        /*case "supplier": {
+        }
+        case "supplier": {
             supplier(creep);
             break;
-        }*/
+        }
         default:
         {
             creep.memory.role = "worker";
