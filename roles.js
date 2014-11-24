@@ -1,7 +1,7 @@
 var flag = require("flag");
 
 module.exports = {
-    "miner": [10, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
+    "miner": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
         function(creep) {
             if (creep.energy == creep.energyCapacity) {
                 var spawn = creep.pos.findNearest(Game.MY_SPAWNS, {
@@ -32,7 +32,7 @@ module.exports = {
             }
         }
     ],
-    "builder": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
+    "builder": [2, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
         function(creep) {
             if (creep.energy === 0 || creep.memory.mode == "refill") {
                 creep.memory.mode = "refill";
@@ -56,5 +56,30 @@ module.exports = {
                 } else flag(creep);
             }
         }
-    ]
+    ],
+    "repairer": [3, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
+        function(creep) {
+            if (creep.energy === 0 || creep.memory.mode == "refill") {
+                creep.memory.mode = "refill";
+
+                var spawn = creep.pos.findNearest(Game.MY_SPAWNS, {
+                    filter: function(spawn) {
+                        return spawn.energy > 0;
+                    }
+                });
+
+                if (spawn) {
+                    creep.moveTo(spawn);
+
+                    if (spawn.transferEnergy(creep) == Game.ERR_FULL) creep.memory.mode = null;
+                } else flag(creep);
+            } else {
+                var structure = creep.pos.findNearest(Game.MY_STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax; }});
+                if (structure) {
+                    creep.moveTo(site);
+                    creep.repair(site);
+                } else flag(creep);
+            }
+        }
+    ],
 };
