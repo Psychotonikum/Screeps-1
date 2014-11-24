@@ -75,12 +75,10 @@ module.exports = {
                 } else flag(creep);
             } else {
                 var structure = creep.pos.findNearest(Game.MY_STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax / 2; }});
-               
-                console.log(structure);
-               
+
                 if (structure) {
-                    creep.moveTo(site);
-                    creep.repair(site);
+                    creep.moveTo(structure);
+                    creep.repair(structure);
                 } else flag(creep);
             }
         }
