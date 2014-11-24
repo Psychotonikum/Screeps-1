@@ -75,7 +75,9 @@ module.exports = {
                 } else flag(creep);
             } else {
                 var structure = creep.pos.findNearest(Game.STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax / 2; }});
-
+/*
+should completely repair it then...
+*/
                 if (structure) {
                     creep.moveTo(structure);
                     creep.repair(structure);
