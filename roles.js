@@ -1,7 +1,30 @@
 var flag = require("flag");
 
 module.exports = {
-    "miner": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
+    "miner": [5, [Game.MOVE, Game.MOVE, Game.WORK, Game.WORK, Game.WORK], 
+        function(creep) {
+            var source = creep.room.findNearest(Game.SOURCES_ACTIVE);
+            if (source) {
+                creep.moveTo(source);
+                creep.harvest(source);
+            }
+        }
+    ],
+    "carrier": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.CARRY],
+        function(creep) {
+            var coop;
+            
+            if(creep.memory.coop) {
+                      
+            } else
+               coop = creep.rom.findNearest(Game.MY_CREEPS, {filter: function(creep) { return creep.memory.role == "miner" && !creep.memory.coop; }});
+                if(coop) {
+                   coop.memory.coop = creep;
+                   creep.memory.coop = coop;
+                } else console.log("No coop miner found!");
+            }
+    ],
+    /*"miner": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
         function(creep) {
             if (creep.energy == creep.energyCapacity) {
                 var spawn = creep.pos.findNearest(Game.MY_SPAWNS, {
@@ -31,7 +54,7 @@ module.exports = {
                 }
             }
         }
-    ],
+    ],*/
     "builder": [2, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
         function(creep) {
             if (creep.energy === 0 || creep.memory.mode == "refill") {
