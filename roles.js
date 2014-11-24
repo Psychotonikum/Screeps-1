@@ -74,7 +74,7 @@ module.exports = {
                     if (spawn.transferEnergy(creep) == Game.ERR_FULL) creep.memory.mode = null;
                 } else flag(creep);
             } else {
-                var structure = creep.pos.findNearest(Game.MY_STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax / 2; }});
+                var structure = creep.pos.findNearest(Game.STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax / 2; }});
 
                 if (structure) {
                     creep.moveTo(structure);
