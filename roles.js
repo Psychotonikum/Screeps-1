@@ -1,5 +1,10 @@
 var flag = require("flag");
 
+/**
+ * [ 
+ *   number, parts[], action(), shouldSpawn() 
+ * ]
+ */
 module.exports = {
     "miner": [5, [Game.MOVE, Game.MOVE, Game.WORK, Game.WORK, Game.WORK], 
         function(creep) {
@@ -8,6 +13,9 @@ module.exports = {
                 creep.moveTo(source);
                 creep.harvest(source);
             }
+        },
+        function() {
+            return true;
         }
     ],
     "carrier": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.CARRY],
@@ -16,45 +24,15 @@ module.exports = {
             
             if(creep.memory.coop) {
                       
-            } else
+            } else {
                coop = creep.rom.findNearest(Game.MY_CREEPS, {filter: function(creep) { return creep.memory.role == "miner" && !creep.memory.coop; }});
                 if(coop) {
                    coop.memory.coop = creep;
                    creep.memory.coop = coop;
                 } else console.log("No coop miner found!");
             }
-    ],
-    /*"miner": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
-        function(creep) {
-            if (creep.energy == creep.energyCapacity) {
-                var spawn = creep.pos.findNearest(Game.MY_SPAWNS, {
-                    filter: function(spawn) {
-                        return spawn.energy < spawn.energyCapacity;
-                    }
-                });
-                if (spawn) {
-                    creep.moveTo(spawn);
-                    creep.transferEnergy(spawn);
-                } else {
-                    var ext = creep.pos.findNearest(Game.MY_STRUCTURES, {
-                        filter: function(structure) {
-                            return structure.structureType == "extension" && structure.energy < structure.energyCapacity;
-                        }
-                    });
-                    if (ext) {
-                        creep.moveTo(ext);
-                        creep.transferEnergy(ext);
-                    } else flag(creep);
-                }
-            } else {
-                var source = creep.pos.findNearest(Game.SOURCES_ACTIVE);
-                if (source) {
-                    creep.moveTo(source);
-                    creep.harvest(source);
-                }
-            }
         }
-    ],*/
+    ],
     "builder": [2, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.WORK],
         function(creep) {
             if (creep.energy === 0 || creep.memory.mode == "refill") {
