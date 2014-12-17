@@ -1,12 +1,12 @@
 var flag = require("flag");
 
 /**
- * [ 
- *   number, parts[], action(), shouldSpawn() 
+ * [
+ *   number, parts[], action(), shouldSpawn()
  * ]
  */
 module.exports = {
-    "miner": [5, [Game.MOVE, Game.MOVE, Game.WORK, Game.WORK, Game.WORK], 
+    "miner": [5, [Game.MOVE, Game.MOVE, Game.WORK, Game.WORK, Game.WORK],
         function(creep) {
             var source = creep.room.findNearest(Game.SOURCES_ACTIVE);
             if (source) {
@@ -21,14 +21,18 @@ module.exports = {
     "carrier": [5, [Game.MOVE, Game.MOVE, Game.CARRY, Game.CARRY, Game.CARRY],
         function(creep) {
             var coop;
-            
-            if(creep.memory.coop) {
-                      
+
+            if (creep.memory.coop) {
+
             } else {
-               coop = creep.rom.findNearest(Game.MY_CREEPS, {filter: function(creep) { return creep.memory.role == "miner" && !creep.memory.coop; }});
-                if(coop) {
-                   coop.memory.coop = creep;
-                   creep.memory.coop = coop;
+                coop = creep.pos.findNearest(Game.MY_CREEPS, {
+                    filter: function(creep) {
+                        return creep.memory.role == "miner" && !creep.memory.coop;
+                    }
+                });
+                if (coop) {
+                    coop.memory.coop = creep;
+                    creep.memory.coop = coop;
                 } else console.log("No coop miner found!");
             }
         }
@@ -75,8 +79,12 @@ module.exports = {
                     if (spawn.transferEnergy(creep) == Game.ERR_FULL) creep.memory.mode = null;
                 } else flag(creep);
             } else {
-                var structure = creep.pos.findNearest(Game.STRUCTURES, {filter: function(structure) { return structure.hits < structure.hitsMax / 2; }});
-/*
+                var structure = creep.pos.findNearest(Game.STRUCTURES, {
+                    filter: function(structure) {
+                        return structure.hits < structure.hitsMax / 2;
+                    }
+                });
+                /*
 should completely repair it then...
 */
                 if (structure) {
